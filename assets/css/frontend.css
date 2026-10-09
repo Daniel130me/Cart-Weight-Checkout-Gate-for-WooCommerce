@@ -1,0 +1,58 @@
+.cwcgfw-progress {
+	--cwcgfw-accent: #c95d18;
+	--cwcgfw-background: #fff8f2;
+	--cwcgfw-border: #edc29f;
+	margin: 0 0 1.5rem;
+	padding: 1rem 1.125rem;
+	border: 1px solid var(--cwcgfw-border);
+	border-radius: 8px;
+	background: var(--cwcgfw-background);
+	color: #33271f;
+}
+
+.cwcgfw-progress.is-reached {
+	--cwcgfw-accent: #217a4b;
+	--cwcgfw-background: #f1faf5;
+	--cwcgfw-border: #a9d8bc;
+}
+
+.cwcgfw-progress__header {
+	display: flex;
+	gap: 1rem;
+	align-items: baseline;
+	justify-content: space-between;
+	margin-bottom: 0.625rem;
+}
+
+.cwcgfw-progress__track {
+	overflow: hidden;
+	height: 0.625rem;
+	border-radius: 999px;
+	background: rgba(0, 0, 0, 0.1);
+}
+
+.cwcgfw-progress__bar {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: var(--cwcgfw-accent);
+	transition: width 240ms ease;
+}
+
+.cwcgfw-progress__message {
+	margin: 0.625rem 0 0;
+	font-size: 0.925em;
+}
+
+.cwcgfw-progress.is-compact {
+	margin: 0.75rem 0;
+	padding: 0.75rem;
+	font-size: 0.9em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cwcgfw-progress__bar {
+		transition: none;
+	}
+}
+

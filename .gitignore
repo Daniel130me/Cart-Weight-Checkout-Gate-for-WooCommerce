@@ -1,0 +1,19 @@
+# Generated packages and reports.
+*.zip
+graphify-out/
+
+# Development dependencies and test output.
+vendor/
+node_modules/
+.phpunit.result.cache
+coverage/
+
+# Local environment and editor files.
+.env
+.env.*
+.idea/
+.vscode/
+*.log
+.DS_Store
+Thumbs.db
+
