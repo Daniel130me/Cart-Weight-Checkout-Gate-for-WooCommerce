@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for helping improve Cart Weight Checkout Gate for WooCommerce.
+Thank you for helping improve CartQuota – Minimum Weight for WooCommerce.
 
 ## Before opening a pull request
 

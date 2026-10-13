@@ -5,10 +5,10 @@
  * Order weight snapshots are intentionally retained with their WooCommerce
  * orders as historical operational data.
  *
- * @package CartWeightCheckoutGate
+ * @package CartQuotaMinimumWeight
  */
 
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
-delete_option( 'cwcgfw_enabled' );
-delete_option( 'cwcgfw_minimum_weight_kg' );
+delete_option( 'cqmfw_enabled' );
+delete_option( 'cqmfw_minimum_weight_kg' );

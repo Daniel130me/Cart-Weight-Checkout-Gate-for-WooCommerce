@@ -2,10 +2,10 @@
 /**
  * Server-side checkout and payment enforcement.
  *
- * @package CartWeightCheckoutGate
+ * @package CartQuotaMinimumWeight
  */
 
-namespace CartWeightCheckoutGate;
+namespace CartQuotaMinimumWeight;
 
 use Exception;
 use WC_Cart;
@@ -15,7 +15,7 @@ use WP_Error;
 defined( 'ABSPATH' ) || exit;
 
 final class Checkout_Validator {
-	const ERROR_CODE = 'cwcgfw_minimum_cart_weight';
+	const ERROR_CODE = 'cqmfw_minimum_cart_weight';
 
 	/** @var Settings */
 	private $settings;
@@ -61,7 +61,7 @@ final class Checkout_Validator {
 			wc_add_notice(
 				$message,
 				'error',
-				array( 'cwcgfw_minimum_weight' => true )
+				array( 'cqmfw_minimum_weight' => true )
 			);
 		}
 	}
@@ -89,12 +89,12 @@ final class Checkout_Validator {
 		}
 
 		foreach ( $error_notices as $notice ) {
-			if ( empty( $notice['data']['cwcgfw_minimum_weight'] ) ) {
+			if ( empty( $notice['data']['cqmfw_minimum_weight'] ) ) {
 				return $template;
 			}
 		}
 
-		return CWCGFW_PATH . 'templates/checkout/cart-errors.php';
+		return CQMFW_PATH . 'templates/checkout/cart-errors.php';
 	}
 
 	/**
@@ -206,7 +206,7 @@ final class Checkout_Validator {
 	private function get_cart_error_message( $status ) {
 		return sprintf(
 			/* translators: 1: current cart weight, 2: required minimum, 3: remaining weight, all in kilograms. */
-			__( 'Your cart weighs %1$s kg. A minimum of %2$s kg is required before checkout. Please add %3$s kg more.', 'cart-weight-checkout-gate-for-woocommerce' ),
+			__( 'Your cart weighs %1$s kg. A minimum of %2$s kg is required before checkout. Please add %3$s kg more.', 'cartquota-minimum-weight-woocommerce' ),
 			$this->format_weight( $status['current'] ),
 			$this->format_weight( $status['minimum'] ),
 			$this->format_weight( $status['remaining'] )
@@ -217,7 +217,7 @@ final class Checkout_Validator {
 	private function get_order_error_message( $status ) {
 		return sprintf(
 			/* translators: 1: order weight, 2: required minimum, 3: remaining weight, all in kilograms. */
-			__( 'Payment is unavailable because this order weighs %1$s kg and the minimum is %2$s kg. Please contact the store or add %3$s kg more through the cart.', 'cart-weight-checkout-gate-for-woocommerce' ),
+			__( 'Payment is unavailable because this order weighs %1$s kg and the minimum is %2$s kg. Please contact the store or add %3$s kg more through the cart.', 'cartquota-minimum-weight-woocommerce' ),
 			$this->format_weight( $status['current'] ),
 			$this->format_weight( $status['minimum'] ),
 			$this->format_weight( $status['remaining'] )

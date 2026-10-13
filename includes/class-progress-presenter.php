@@ -2,10 +2,10 @@
 /**
  * Customer-facing progress indicator and Store API data.
  *
- * @package CartWeightCheckoutGate
+ * @package CartQuotaMinimumWeight
  */
 
-namespace CartWeightCheckoutGate;
+namespace CartQuotaMinimumWeight;
 
 use Automattic\WooCommerce\StoreApi\Schemas\V1\CartSchema;
 use WC_Cart;
@@ -16,8 +16,8 @@ use WP_REST_Server;
 defined( 'ABSPATH' ) || exit;
 
 final class Progress_Presenter {
-	const STORE_API_NAMESPACE = 'cart-weight-checkout-gate';
-	const REST_NAMESPACE      = 'cart-weight-checkout-gate/v1';
+	const STORE_API_NAMESPACE = 'cartquota-minimum-weight';
+	const REST_NAMESPACE      = 'cartquota-minimum-weight/v1';
 
 	/** @var Settings */
 	private $settings;
@@ -61,24 +61,24 @@ final class Progress_Presenter {
 			return;
 		}
 
-		wp_enqueue_style( 'cwcgfw-progress', CWCGFW_URL . 'assets/css/frontend.css', array(), CWCGFW_VERSION );
-		wp_enqueue_script( 'cwcgfw-progress', CWCGFW_URL . 'assets/js/frontend.js', array(), CWCGFW_VERSION, true );
+		wp_enqueue_style( 'cqmfw-progress', CQMFW_URL . 'assets/css/frontend.css', array(), CQMFW_VERSION );
+		wp_enqueue_script( 'cqmfw-progress', CQMFW_URL . 'assets/js/frontend.js', array(), CQMFW_VERSION, true );
 		$cart = function_exists( 'WC' ) ? WC()->cart : null;
 		/* translators: 1: remaining cart weight, 2: required minimum weight, both in kilograms. */
-		$remaining_message = __( 'Add %1$s kg more to reach the %2$s kg checkout minimum.', 'cart-weight-checkout-gate-for-woocommerce' );
+		$remaining_message = __( 'Add %1$s kg more to reach the %2$s kg checkout minimum.', 'cartquota-minimum-weight-woocommerce' );
 		/* translators: 1: current cart weight, 2: required minimum weight, both in kilograms. */
-		$reached_message = __( 'Minimum reached — your cart is %1$s kg of the required %2$s kg.', 'cart-weight-checkout-gate-for-woocommerce' );
+		$reached_message = __( 'Minimum reached — your cart is %1$s kg of the required %2$s kg.', 'cartquota-minimum-weight-woocommerce' );
 
 		wp_localize_script(
-			'cwcgfw-progress',
-			'cwcgfwCartWeightGate',
+			'cqmfw-progress',
+			'cqmfwCartQuota',
 			array(
 				'endpoint'         => esc_url_raw( rest_url( self::REST_NAMESPACE . '/status' ) ),
 				'previewEndpoint'  => esc_url_raw( rest_url( self::REST_NAMESPACE . '/preview' ) ),
 				'namespace'        => self::STORE_API_NAMESPACE,
 				'minimum'          => $this->settings->get_minimum_kg(),
 				'cartItems'        => $this->calculator->get_cart_item_preview_data( $cart ),
-				'updatingMessage'  => __( 'Updating cart weight…', 'cart-weight-checkout-gate-for-woocommerce' ),
+				'updatingMessage'  => __( 'Updating cart weight…', 'cartquota-minimum-weight-woocommerce' ),
 				'remainingMessage' => $remaining_message,
 				'reachedMessage'   => $reached_message,
 			)
@@ -305,13 +305,13 @@ final class Progress_Presenter {
 		$message = $status['reached']
 			? sprintf(
 				/* translators: 1: current cart weight, 2: required minimum weight. */
-				__( 'Minimum reached — your cart is %1$s kg of the required %2$s kg.', 'cart-weight-checkout-gate-for-woocommerce' ),
+				__( 'Minimum reached — your cart is %1$s kg of the required %2$s kg.', 'cartquota-minimum-weight-woocommerce' ),
 				$current,
 				$minimum
 			)
 			: sprintf(
 				/* translators: 1: remaining weight, 2: required minimum weight. */
-				__( 'Add %1$s kg more to reach the %2$s kg checkout minimum.', 'cart-weight-checkout-gate-for-woocommerce' ),
+				__( 'Add %1$s kg more to reach the %2$s kg checkout minimum.', 'cartquota-minimum-weight-woocommerce' ),
 				$remain,
 				$minimum
 			);
@@ -355,22 +355,22 @@ final class Progress_Presenter {
 			return '';
 		}
 
-		$classes = array( 'cwcgfw-progress', $status['reached'] ? 'is-reached' : 'is-short' );
+		$classes = array( 'cqmfw-progress', $status['reached'] ? 'is-reached' : 'is-short' );
 		if ( $compact ) {
 			$classes[] = 'is-compact';
 		}
 
 		ob_start();
 		?>
-		<section class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" data-cwcgfw-progress aria-live="polite">
-			<div class="cwcgfw-progress__header">
-				<strong><?php esc_html_e( 'Cart weight', 'cart-weight-checkout-gate-for-woocommerce' ); ?></strong>
-				<span><span data-cwcgfw-current><?php echo esc_html( $status['current_formatted'] ); ?></span> / <span data-cwcgfw-minimum><?php echo esc_html( $status['minimum_formatted'] ); ?></span> <?php esc_html_e( 'kg', 'cart-weight-checkout-gate-for-woocommerce' ); ?></span>
+		<section class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" data-cqmfw-progress aria-live="polite">
+			<div class="cqmfw-progress__header">
+				<strong><?php esc_html_e( 'Cart weight', 'cartquota-minimum-weight-woocommerce' ); ?></strong>
+				<span><span data-cqmfw-current><?php echo esc_html( $status['current_formatted'] ); ?></span> / <span data-cqmfw-minimum><?php echo esc_html( $status['minimum_formatted'] ); ?></span> <?php esc_html_e( 'kg', 'cartquota-minimum-weight-woocommerce' ); ?></span>
 			</div>
-			<div class="cwcgfw-progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="<?php echo esc_attr( $status['minimum'] ); ?>" aria-valuenow="<?php echo esc_attr( min( $status['current'], $status['minimum'] ) ); ?>">
-				<span class="cwcgfw-progress__bar" data-cwcgfw-bar style="width: <?php echo esc_attr( $status['percent'] ); ?>%"></span>
+			<div class="cqmfw-progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="<?php echo esc_attr( $status['minimum'] ); ?>" aria-valuenow="<?php echo esc_attr( min( $status['current'], $status['minimum'] ) ); ?>">
+				<span class="cqmfw-progress__bar" data-cqmfw-bar style="width: <?php echo esc_attr( $status['percent'] ); ?>%"></span>
 			</div>
-			<p class="cwcgfw-progress__message" data-cwcgfw-message><?php echo esc_html( $status['message'] ); ?></p>
+			<p class="cqmfw-progress__message" data-cqmfw-message><?php echo esc_html( $status['message'] ); ?></p>
 		</section>
 		<?php
 		return (string) ob_get_clean();

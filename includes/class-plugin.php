@@ -2,10 +2,10 @@
 /**
  * Plugin composition root.
  *
- * @package CartWeightCheckoutGate
+ * @package CartQuotaMinimumWeight
  */
 
-namespace CartWeightCheckoutGate;
+namespace CartQuotaMinimumWeight;
 
 defined( 'ABSPATH' ) || exit;
 

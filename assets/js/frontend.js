@@ -1,7 +1,7 @@
 ( function () {
 	'use strict';
 
-	var config = window.cwcgfwCartWeightGate || {};
+	var config = window.cqmfwCartQuota || {};
 	var refreshTimer = null;
 	var cartUpdateTimer = null;
 	var previewTimer = null;
@@ -10,7 +10,7 @@
 	var lastStoreSignature = '';
 
 	function getIndicators() {
-		return document.querySelectorAll( '[data-cwcgfw-progress]' );
+		return document.querySelectorAll( '[data-cqmfw-progress]' );
 	}
 
 	function updateIndicators( status ) {
@@ -23,16 +23,16 @@
 		}
 
 		getIndicators().forEach( function ( indicator ) {
-			var bar = indicator.querySelector( '[data-cwcgfw-bar]' );
+			var bar = indicator.querySelector( '[data-cqmfw-bar]' );
 			var progressbar = indicator.querySelector( '[role="progressbar"]' );
 
 			indicator.classList.toggle( 'is-reached', Boolean( status.reached ) );
 			indicator.classList.toggle( 'is-short', ! status.reached );
 			indicator.removeAttribute( 'aria-busy' );
 
-			indicator.querySelector( '[data-cwcgfw-current]' ).textContent = status.current_formatted;
-			indicator.querySelector( '[data-cwcgfw-minimum]' ).textContent = status.minimum_formatted;
-			indicator.querySelector( '[data-cwcgfw-message]' ).textContent = status.message;
+			indicator.querySelector( '[data-cqmfw-current]' ).textContent = status.current_formatted;
+			indicator.querySelector( '[data-cqmfw-minimum]' ).textContent = status.minimum_formatted;
+			indicator.querySelector( '[data-cqmfw-message]' ).textContent = status.message;
 
 			if ( bar ) {
 				bar.style.width = Math.max( 0, Math.min( 100, Number( status.percent ) || 0 ) ) + '%';
@@ -48,7 +48,7 @@
 	function markIndicatorsUpdating() {
 		getIndicators().forEach( function ( indicator ) {
 			indicator.setAttribute( 'aria-busy', 'true' );
-			indicator.querySelector( '[data-cwcgfw-message]' ).textContent = config.updatingMessage || 'Updating cart weight…';
+			indicator.querySelector( '[data-cqmfw-message]' ).textContent = config.updatingMessage || 'Updating cart weight…';
 		} );
 	}
 

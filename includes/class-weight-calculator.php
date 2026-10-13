@@ -2,10 +2,10 @@
 /**
  * Cart and order weight calculations.
  *
- * @package CartWeightCheckoutGate
+ * @package CartQuotaMinimumWeight
  */
 
-namespace CartWeightCheckoutGate;
+namespace CartQuotaMinimumWeight;
 
 use WC_Cart;
 use WC_Order;
@@ -14,8 +14,7 @@ use WC_Product;
 defined( 'ABSPATH' ) || exit;
 
 final class Weight_Calculator {
-	const ORDER_WEIGHT_META        = '_cwcgfw_checkout_weight_kg';
-	const LEGACY_ORDER_WEIGHT_META = '_xmcw_checkout_weight_kg';
+	const ORDER_WEIGHT_META = '_cqmfw_checkout_weight_kg';
 
 	/** @var Settings */
 	private $settings;
@@ -71,7 +70,7 @@ final class Weight_Calculator {
 		 * @param float   $weight_kg Calculated weight in kilograms.
 		 * @param WC_Cart $cart      Cart being calculated.
 		 */
-		return max( 0.0, (float) apply_filters( 'cwcgfw_cart_weight_kg', $weight_kg, $cart ) );
+		return max( 0.0, (float) apply_filters( 'cqmfw_cart_weight_kg', $weight_kg, $cart ) );
 	}
 
 	/**
@@ -115,9 +114,6 @@ final class Weight_Calculator {
 	 */
 	public function get_order_weight_kg( WC_Order $order ) {
 		$snapshot = $order->get_meta( self::ORDER_WEIGHT_META, true );
-		if ( '' === $snapshot ) {
-			$snapshot = $order->get_meta( self::LEGACY_ORDER_WEIGHT_META, true );
-		}
 
 		if ( '' !== $snapshot && is_numeric( $snapshot ) ) {
 			return max( 0.0, (float) $snapshot );
@@ -143,7 +139,7 @@ final class Weight_Calculator {
 		 * @param float    $weight_kg Calculated weight in kilograms.
 		 * @param WC_Order $order     Order being calculated.
 		 */
-		return max( 0.0, (float) apply_filters( 'cwcgfw_order_weight_kg', $weight_kg, $order ) );
+		return max( 0.0, (float) apply_filters( 'cqmfw_order_weight_kg', $weight_kg, $order ) );
 	}
 
 	/**

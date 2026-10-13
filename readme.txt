@@ -1,10 +1,10 @@
-=== Cart Weight Checkout Gate for WooCommerce ===
+=== CartQuota – Minimum Weight for WooCommerce ===
 Contributors: danielkay
 Tags: woocommerce, checkout, cart, shipping, minimum order
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Require a configurable minimum cart weight before customers can proceed to check
 
 == Description ==
 
-Cart Weight Checkout Gate for WooCommerce helps stores protect shipping margins by requiring the combined weight of shippable cart items to reach a configurable minimum.
+CartQuota – Minimum Weight for WooCommerce helps stores protect shipping margins by requiring the combined weight of shippable cart items to reach a configurable minimum.
 
 Customers see a clear progress indicator showing their current cart weight, the required minimum, and how much more they need to add. Quantity changes update the indicator immediately and are then verified against the WooCommerce cart session.
 
@@ -38,8 +38,8 @@ Products must have an accurate weight configured in WooCommerce. Only shippable,
 
 1. Install and activate WooCommerce.
 2. Upload the plugin ZIP through Plugins > Add Plugin > Upload Plugin, or install it from the WordPress.org Plugin Directory.
-3. Activate "Cart Weight Checkout Gate for WooCommerce".
-4. Open WooCommerce > Cart Weight Gate.
+3. Activate "CartQuota – Minimum Weight for WooCommerce".
+4. Open WooCommerce > CartQuota.
 5. Enable enforcement and enter the required minimum in kilograms.
 
 == Frequently Asked Questions ==
@@ -50,7 +50,7 @@ It is designed specifically for WooCommerce. It does not depend on a particular 
 
 = Can I change the default 10 kg minimum? =
 
-Yes. Administrators and WooCommerce Shop Managers can change the minimum under WooCommerce > Cart Weight Gate.
+Yes. Administrators and WooCommerce Shop Managers can change the minimum under WooCommerce > CartQuota.
 
 = Can I temporarily disable the requirement? =
 
@@ -80,6 +80,10 @@ On uninstall, the plugin removes its configuration options. Existing private ord
 
 == Changelog ==
 
+= 1.3.3 =
+* Renamed the plugin to CartQuota – Minimum Weight for WooCommerce.
+* Updated the plugin slug, text domain, namespaces, prefixes, and frontend identifiers to match the new identity.
+
 = 1.3.2 =
 * Initial public release.
 * Added configurable minimum-weight enforcement across classic checkout, Checkout Blocks, Store API, order creation, and payment.
@@ -87,5 +91,5 @@ On uninstall, the plugin removes its configuration options. Existing private ord
 
 == Upgrade Notice ==
 
-= 1.3.2 =
-Initial public release.
+= 1.3.3 =
+Renamed the plugin and its internal identifiers to the CartQuota identity.

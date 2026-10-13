@@ -2,17 +2,17 @@
 /**
  * Settings storage and administration page.
  *
- * @package CartWeightCheckoutGate
+ * @package CartQuotaMinimumWeight
  */
 
-namespace CartWeightCheckoutGate;
+namespace CartQuotaMinimumWeight;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Settings {
-	const OPTION_ENABLED     = 'cwcgfw_enabled';
-	const OPTION_MINIMUM_KG  = 'cwcgfw_minimum_weight_kg';
-	const SETTINGS_GROUP     = 'cwcgfw_settings';
+	const OPTION_ENABLED     = 'cqmfw_enabled';
+	const OPTION_MINIMUM_KG  = 'cqmfw_minimum_weight_kg';
+	const SETTINGS_GROUP     = 'cqmfw_settings';
 	const DEFAULT_MINIMUM_KG = 10.0;
 	const MAXIMUM_MINIMUM_KG = 1000000.0;
 
@@ -30,7 +30,7 @@ final class Settings {
 	public function register() {
 		add_action( 'admin_menu', array( $this, 'add_menu_page' ), 60 );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
-		add_filter( 'plugin_action_links_' . plugin_basename( CWCGFW_FILE ), array( $this, 'add_settings_link' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( CQMFW_FILE ), array( $this, 'add_settings_link' ) );
 	}
 
 	/**
@@ -57,10 +57,10 @@ final class Settings {
 	public function add_menu_page() {
 		add_submenu_page(
 			'woocommerce',
-			__( 'Cart Weight Checkout Gate', 'cart-weight-checkout-gate-for-woocommerce' ),
-			__( 'Cart Weight Gate', 'cart-weight-checkout-gate-for-woocommerce' ),
+			__( 'CartQuota Minimum Weight', 'cartquota-minimum-weight-woocommerce' ),
+			__( 'CartQuota', 'cartquota-minimum-weight-woocommerce' ),
 			'manage_woocommerce',
-			'cwcgfw-settings',
+			'cqmfw-settings',
 			array( $this, 'render_settings_page' )
 		);
 	}
@@ -111,10 +111,10 @@ final class Settings {
 		if ( $minimum <= 0 || $minimum > self::MAXIMUM_MINIMUM_KG ) {
 			add_settings_error(
 				self::OPTION_MINIMUM_KG,
-				'cwcgfw_invalid_minimum',
+				'cqmfw_invalid_minimum',
 				sprintf(
 					/* translators: %s: maximum supported weight in kilograms. */
-					__( 'Enter a minimum weight greater than 0 kg and no more than %s kg.', 'cart-weight-checkout-gate-for-woocommerce' ),
+					__( 'Enter a minimum weight greater than 0 kg and no more than %s kg.', 'cartquota-minimum-weight-woocommerce' ),
 					number_format_i18n( self::MAXIMUM_MINIMUM_KG )
 				),
 				'error'
@@ -137,8 +137,8 @@ final class Settings {
 			$links,
 			sprintf(
 				'<a href="%s">%s</a>',
-				esc_url( admin_url( 'admin.php?page=cwcgfw-settings' ) ),
-				esc_html__( 'Settings', 'cart-weight-checkout-gate-for-woocommerce' )
+				esc_url( admin_url( 'admin.php?page=cqmfw-settings' ) ),
+				esc_html__( 'Settings', 'cartquota-minimum-weight-woocommerce' )
 			)
 		);
 
@@ -148,31 +148,31 @@ final class Settings {
 	/** Render the settings page. */
 	public function render_settings_page() {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
-			wp_die( esc_html__( 'You do not have permission to manage these settings.', 'cart-weight-checkout-gate-for-woocommerce' ) );
+			wp_die( esc_html__( 'You do not have permission to manage these settings.', 'cartquota-minimum-weight-woocommerce' ) );
 		}
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Cart Weight Checkout Gate', 'cart-weight-checkout-gate-for-woocommerce' ); ?></h1>
-			<p><?php esc_html_e( 'Require the combined weight of shippable items to reach a minimum before customers can checkout or pay.', 'cart-weight-checkout-gate-for-woocommerce' ); ?></p>
+			<h1><?php esc_html_e( 'CartQuota Minimum Weight', 'cartquota-minimum-weight-woocommerce' ); ?></h1>
+			<p><?php esc_html_e( 'Require the combined weight of shippable items to reach a minimum before customers can checkout or pay.', 'cartquota-minimum-weight-woocommerce' ); ?></p>
 			<form method="post" action="options.php">
 				<?php settings_fields( self::SETTINGS_GROUP ); ?>
 				<table class="form-table" role="presentation">
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Enforcement', 'cart-weight-checkout-gate-for-woocommerce' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Enforcement', 'cartquota-minimum-weight-woocommerce' ); ?></th>
 						<td>
-							<label for="cwcgfw-enabled">
-								<input id="cwcgfw-enabled" name="<?php echo esc_attr( self::OPTION_ENABLED ); ?>" type="checkbox" value="yes" <?php checked( $this->is_enabled() ); ?>>
-								<?php esc_html_e( 'Require the minimum cart weight', 'cart-weight-checkout-gate-for-woocommerce' ); ?>
+							<label for="cqmfw-enabled">
+								<input id="cqmfw-enabled" name="<?php echo esc_attr( self::OPTION_ENABLED ); ?>" type="checkbox" value="yes" <?php checked( $this->is_enabled() ); ?>>
+								<?php esc_html_e( 'Require the minimum cart weight', 'cartquota-minimum-weight-woocommerce' ); ?>
 							</label>
-							<p class="description"><?php esc_html_e( 'Turn this off to deactivate all progress messages and checkout restrictions without disabling the plugin.', 'cart-weight-checkout-gate-for-woocommerce' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Turn this off to deactivate all progress messages and checkout restrictions without disabling the plugin.', 'cartquota-minimum-weight-woocommerce' ); ?></p>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="cwcgfw-minimum-kg"><?php esc_html_e( 'Minimum weight', 'cart-weight-checkout-gate-for-woocommerce' ); ?></label></th>
+						<th scope="row"><label for="cqmfw-minimum-kg"><?php esc_html_e( 'Minimum weight', 'cartquota-minimum-weight-woocommerce' ); ?></label></th>
 						<td>
-							<input id="cwcgfw-minimum-kg" name="<?php echo esc_attr( self::OPTION_MINIMUM_KG ); ?>" type="number" min="0.001" max="<?php echo esc_attr( self::MAXIMUM_MINIMUM_KG ); ?>" step="0.001" value="<?php echo esc_attr( $this->get_minimum_kg() ); ?>" class="small-text">
-							<span><?php esc_html_e( 'kg', 'cart-weight-checkout-gate-for-woocommerce' ); ?></span>
-							<p class="description"><?php esc_html_e( 'The plugin converts product weights from the WooCommerce store unit to kilograms automatically.', 'cart-weight-checkout-gate-for-woocommerce' ); ?></p>
+							<input id="cqmfw-minimum-kg" name="<?php echo esc_attr( self::OPTION_MINIMUM_KG ); ?>" type="number" min="0.001" max="<?php echo esc_attr( self::MAXIMUM_MINIMUM_KG ); ?>" step="0.001" value="<?php echo esc_attr( $this->get_minimum_kg() ); ?>" class="small-text">
+							<span><?php esc_html_e( 'kg', 'cartquota-minimum-weight-woocommerce' ); ?></span>
+							<p class="description"><?php esc_html_e( 'The plugin converts product weights from the WooCommerce store unit to kilograms automatically.', 'cartquota-minimum-weight-woocommerce' ); ?></p>
 						</td>
 					</tr>
 				</table>

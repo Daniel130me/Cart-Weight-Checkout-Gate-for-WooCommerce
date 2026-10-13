@@ -1,6 +1,6 @@
-# Cart Weight Checkout Gate for WooCommerce
+# CartQuota – Minimum Weight for WooCommerce
 
-Cart Weight Checkout Gate for WooCommerce requires the combined weight of
+CartQuota – Minimum Weight for WooCommerce requires the combined weight of
 shippable cart items to reach an administrator-configured minimum before a
 customer can check out or pay.
 
@@ -30,7 +30,7 @@ change the minimum or disable enforcement from the WooCommerce settings menu.
 2. Download the latest release ZIP.
 3. In WordPress, open **Plugins > Add Plugin > Upload Plugin**.
 4. Upload and activate the ZIP.
-5. Open **WooCommerce > Cart Weight Gate**.
+5. Open **WooCommerce > CartQuota**.
 6. Enable enforcement and set the required minimum weight.
 
 ## How enforcement works
